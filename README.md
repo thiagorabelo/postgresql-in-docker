@@ -22,8 +22,5 @@ docker compose up -d
 and connect to database using `psql`:
 
 ```sh
-# Maybe you have to create postgres user
-# on docker host or create your own $USER
-# in the database.
-sudo -u postgres -H psql
+psql -U postgres YOUR_DATABASE_NAME
 ```
