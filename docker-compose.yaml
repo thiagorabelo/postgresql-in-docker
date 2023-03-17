@@ -1,0 +1,23 @@
+
+services:
+  postgres:
+    image: "thiago/postgres:${PG_TAG}"
+    build:
+      context: ./postgres
+      args:
+        # PG_TAG is read from .env file
+        - PG_TAG=${PG_TAG}
+    restart: unless-stopped
+    env_file: ./postgres/.db_env
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data:rw
+      - ./postgres/init:/docker-entrypoint-initdb.d:rw
+
+      # With this it is possible to connect psql to the database
+      # through unix sockets as if PostgreSQL were installed on
+      # the machine (Ubuntu 22.04)
+      - /run/postgresql:/run/postgresql:rw
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - 5432:5432
